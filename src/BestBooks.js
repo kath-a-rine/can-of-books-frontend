@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import { Carousel, Container, Form } from 'react-bootstrap';
+import bookimg from './assets/books.jpg';
+import './BestBooks.css';
 
 let SERVER = process.env.REACT_APP_SERVER;
 
@@ -36,14 +38,14 @@ class BestBooks extends React.Component {
         <Carousel.Item key={bookObj._id}>
           <img
             className="photos"
-            src="public/assets/books.jpg"
+            src={bookimg}
             alt="First slide"
           />
-          <Carousel.Caption>
+          <Carousel.Caption style={{ backgroundcolor: 'black' }}>
             <h3>{bookObj.title}</h3>
             <p>{bookObj.description}</p>
           </Carousel.Caption>
-        </Carousel.Item>
+        </Carousel.Item >
       )
     }
     )
@@ -61,13 +63,17 @@ class BestBooks extends React.Component {
           </Form>
         </Container>
 
-        {this.state.books.length ? (
-          <Carousel>
-            {carouselItems}
-          </Carousel>
-        ) : (
-          <h3>No Books Found :( </h3>
-        )}
+        {
+          this.state.books.length ? (
+            <Container style={{ display: 'flex', justifyContent: 'center' }}>
+              <Carousel>
+                {carouselItems}
+              </Carousel>
+            </Container>
+          ) : (
+            <h3>No Books Found :( </h3>
+          )
+        }
       </>
     );
   }
