@@ -1,8 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-import { Carousel, Container, Form } from 'react-bootstrap';
-import bookimg from './assets/books.jpg';
+import { Carousel, Container, Button } from 'react-bootstrap';
+import bookImg from './assets/books.jpg';
 import './BestBooks.css';
+import BookFormModal from './components/BookFormModal';
 
 let SERVER = process.env.REACT_APP_SERVER;
 
@@ -10,8 +11,13 @@ class BestBooks extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: []
+      books: [],
+      newBook: {},
+      modalDisplayStatus: false 
     }
+  }
+  componentDidMount() {
+    this.getBooks();
   }
 
   /* TODO: Make a GET request to your API to fetch all the books from the database  */
@@ -26,8 +32,48 @@ class BestBooks extends React.Component {
       console.log('There has been an error');
     }
   }
-  componentDidMount() {
-    this.getBooks();
+
+ openModalHandler = () => {
+  this.setState({
+    modalDisplayStatus: true
+  })
+  }
+
+  closeModalHandler = () => {
+    this.setState({
+      modalDisplayStatus: false
+    })
+  }
+
+  submitFormHandler = async (e) => {
+    e.preventDefault();
+    let newBook = {
+      title: e.target.bookTitle.value,
+      description: e.target.bookDescription.value,
+      hasRead: e.target.hasRead.checked
+    }
+    console.log(newBook);
+    try {
+      const addBook = await axios.post(`${process.env.REACT_APP_SERVER}/books`, newBook)
+      this.setState({
+        modalDisplayStatus: false,
+        books: [...this.state.books, addBook.data]
+      });
+    } catch(error) {
+      console.log('an error has occurred')
+    }
+  }
+
+ deleteBookHandler = async (id) => {
+    try {
+      await axios.delete(`${process.env.REACT_APP_SERVER}/books/${id}`)
+      let updatedBookList = this.state.books.filter(book => book._id !== id)
+      this.setState({
+        books: updatedBookList,
+      });
+    } catch(error) {
+      console.log('an error has occurred')
+    }
   }
 
   render() {
@@ -38,10 +84,10 @@ class BestBooks extends React.Component {
         <Carousel.Item key={bookObj._id}>
           <img
             className="photos"
-            src={bookimg}
+            src={bookImg}
             alt="First slide"
           />
-          <Carousel.Caption style={{ backgroundcolor: 'black' }}>
+          <Carousel.Caption >
             <h3>{bookObj.title}</h3>
             <p>{bookObj.description}</p>
           </Carousel.Caption>
@@ -49,31 +95,26 @@ class BestBooks extends React.Component {
       )
     }
     )
-    // ________________________________________
     return (
       <>
-        <h5>Books Form</h5>
-        <Container>
-          <Form>
-            <Form.Group>
-              <Form.Label>
-                <Form.Control />
-              </Form.Label>
-            </Form.Group>
-          </Form>
-        </Container>
-
+       <Container style={{display: 'flex', justifyContent: 'center'}}>
         {
           this.state.books.length ? (
-            <Container style={{ display: 'flex', justifyContent: 'center' }}>
               <Carousel>
                 {carouselItems}
               </Carousel>
-            </Container>
           ) : (
             <h3>No Books Found :( </h3>
-          )
-        }
+            )
+          }
+   
+        <Button variant="warning" onClick={this.openModalHandler}>Add a new book</Button>
+        </Container>
+        <BookFormModal 
+          modalDisplayStatus={this.state.modalDisplayStatus}
+          submitFormHandler={this.submitFormHandler}
+          closeModalHandler={this.closeModalHandler}
+        />
       </>
     );
   }
