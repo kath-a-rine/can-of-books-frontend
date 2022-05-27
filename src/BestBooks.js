@@ -4,6 +4,7 @@ import { Carousel, Container, Button } from 'react-bootstrap';
 import bookImg from './assets/books.jpg';
 import './BestBooks.css';
 import BookFormModal from './components/BookFormModal';
+import DeleteButton from './components/DeleteButton';
 
 let SERVER = process.env.REACT_APP_SERVER;
 
@@ -13,7 +14,7 @@ class BestBooks extends React.Component {
     this.state = {
       books: [],
       newBook: {},
-      modalDisplayStatus: false 
+      modalDisplayStatus: false
     }
   }
   componentDidMount() {
@@ -33,10 +34,10 @@ class BestBooks extends React.Component {
     }
   }
 
- openModalHandler = () => {
-  this.setState({
-    modalDisplayStatus: true
-  })
+  openModalHandler = () => {
+    this.setState({
+      modalDisplayStatus: true
+    })
   }
 
   closeModalHandler = () => {
@@ -59,19 +60,20 @@ class BestBooks extends React.Component {
         modalDisplayStatus: false,
         books: [...this.state.books, addBook.data]
       });
-    } catch(error) {
+    } catch (error) {
       console.log('an error has occurred')
     }
   }
 
- deleteBookHandler = async (id) => {
+  deleteBookHandler = async (id) => {
     try {
       await axios.delete(`${process.env.REACT_APP_SERVER}/books/${id}`)
       let updatedBookList = this.state.books.filter(book => book._id !== id)
+      console.log(id);
       this.setState({
         books: updatedBookList,
       });
-    } catch(error) {
+    } catch (error) {
       console.log('an error has occurred')
     }
   }
@@ -90,6 +92,10 @@ class BestBooks extends React.Component {
           <Carousel.Caption >
             <h3>{bookObj.title}</h3>
             <p>{bookObj.description}</p>
+            <DeleteButton
+              deleteBook={this.deleteBookHandler}
+              id={bookObj._id}
+            />
           </Carousel.Caption>
         </Carousel.Item >
       )
@@ -97,24 +103,25 @@ class BestBooks extends React.Component {
     )
     return (
       <>
-       <Container style={{display: 'flex', justifyContent: 'center'}}>
-        {
-          this.state.books.length ? (
+        <Container style={{ display: 'flex', justifyContent: 'center' }}>
+          {
+            this.state.books.length ? (
               <Carousel>
                 {carouselItems}
               </Carousel>
-          ) : (
-            <h3>No Books Found :( </h3>
+            ) : (
+              <h3>No Books Found :( </h3>
             )
           }
-   
-        <Button variant="warning" onClick={this.openModalHandler}>Add a new book</Button>
+
+          <Button variant="warning" onClick={this.openModalHandler}>Add a new book</Button>
         </Container>
-        <BookFormModal 
+        <BookFormModal
           modalDisplayStatus={this.state.modalDisplayStatus}
           submitFormHandler={this.submitFormHandler}
           closeModalHandler={this.closeModalHandler}
         />
+
       </>
     );
   }
