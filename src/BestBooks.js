@@ -5,7 +5,8 @@ import bookImg from './assets/books.jpg';
 import './BestBooks.css';
 import BookFormModal from './components/BookFormModal';
 import DeleteButton from './components/DeleteButton';
-import UpdateBookButton from './components/UpdateBookButton';
+// import UpdateBookButton from './components/UpdateBookButton';
+import UpdateBookModal from './components/UpdateBookModal';
 
 // let SERVER = process.env.REACT_APP_SERVER;
 let SERVER = `https://can-of-books-d85.herokuapp.com`;
@@ -17,7 +18,8 @@ class BestBooks extends React.Component {
       books: [],
       newBook: {},
       modalDisplayStatus: false,
-      updateModalDisplayStatus: false
+      updateModalDisplayStatus: false,
+      // showUpdateForm: false
     }
   }
   componentDidMount() {
@@ -93,15 +95,15 @@ class BestBooks extends React.Component {
     }
   }
 
- updateBookHandler = async (book) => {
+  updateBookHandler = async (book) => {
     try {
       let updatedBook = await axios.put(`${process.env.REACT_APP_SERVER}/books/${book._id}`, book)
       let newBookArray = this.state.books.map(currentBook => {
         return currentBook._id === book._id
-        ? updatedBook.data
-        : currentBook
+          ? updatedBook.data
+          : currentBook
       });
-   
+
       this.setState({
         books: newBookArray,
       });
@@ -124,13 +126,20 @@ class BestBooks extends React.Component {
           <Carousel.Caption >
             <h3>{bookObj.title}</h3>
             <p>{bookObj.description}</p>
-            <UpdateBookButton 
-              updateBook={this.updateBookHandler}
-              id={bookObj._id}
-            />
+            <Button
+              onClick={this.openUpdateModalHandler}
+            // onClick={() => this.setState({ updateModalDisplayStatus: true })}
+            // updateBook={this.updateBookHandler}
+            >Update Book</Button>
             <DeleteButton
               deleteBook={this.deleteBookHandler}
               id={bookObj._id}
+            />
+            <UpdateBookModal
+              updateBook={this.updateBookHandler}
+              book={bookObj}
+              updateModalDisplayStatus={this.state.updateModalDisplayStatus}
+              closeUpdateModalHandler={this.closeUpdateModalHandler}
             />
           </Carousel.Caption>
         </Carousel.Item >
@@ -157,7 +166,6 @@ class BestBooks extends React.Component {
           submitFormHandler={this.submitFormHandler}
           closeModalHandler={this.closeModalHandler}
         />
-
       </>
     );
   }
