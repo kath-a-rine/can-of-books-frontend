@@ -6,7 +6,8 @@ import './BestBooks.css';
 import BookFormModal from './components/BookFormModal';
 import DeleteButton from './components/DeleteButton';
 
-let SERVER = process.env.REACT_APP_SERVER;
+//let SERVER = process.env.REACT_APP_SERVER;
+let SERVER = `https://can-of-books-d85.herokuapp.com`;
 
 class BestBooks extends React.Component {
   constructor(props) {
