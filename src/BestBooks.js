@@ -5,9 +5,10 @@ import bookImg from './assets/books.jpg';
 import './BestBooks.css';
 import BookFormModal from './components/BookFormModal';
 import DeleteButton from './components/DeleteButton';
+import UpdateBookButton from './components/UpdateBookButton';
 
-//let SERVER = process.env.REACT_APP_SERVER;
-let SERVER = `https://can-of-books-d85.herokuapp.com`;
+let SERVER = process.env.REACT_APP_SERVER;
+// let SERVER = `https://can-of-books-d85.herokuapp.com`;
 
 class BestBooks extends React.Component {
   constructor(props) {
@@ -15,7 +16,8 @@ class BestBooks extends React.Component {
     this.state = {
       books: [],
       newBook: {},
-      modalDisplayStatus: false
+      modalDisplayStatus: false,
+      updateModalDisplayStatus: false
     }
   }
   componentDidMount() {
@@ -44,6 +46,18 @@ class BestBooks extends React.Component {
   closeModalHandler = () => {
     this.setState({
       modalDisplayStatus: false
+    })
+  }
+
+  openUpdateModalHandler = () => {
+    this.setState({
+      updateModalDisplayStatus: true
+    })
+  }
+
+  closeUpdateModalHandler = () => {
+    this.setState({
+      updateModalDisplayStatus: false
     })
   }
 
@@ -79,6 +93,23 @@ class BestBooks extends React.Component {
     }
   }
 
+ updateBookHandler = async (book) => {
+    try {
+      let updatedBook = await axios.put(`${process.env.REACT_APP_SERVER}/books/${book._id}`, book)
+      let newBookArray = this.state.books.map(currentBook => {
+        return currentBook._id === book._id
+        ? updatedBook.data
+        : currentBook
+      });
+   
+      this.setState({
+        books: newBookArray,
+      });
+    } catch (error) {
+      console.log('an error has occurred')
+    }
+  }
+
   render() {
     console.log(this.state.books);
     /* TODO: render all the books in a Carousel */
@@ -93,6 +124,10 @@ class BestBooks extends React.Component {
           <Carousel.Caption >
             <h3>{bookObj.title}</h3>
             <p>{bookObj.description}</p>
+            <UpdateBookButton 
+              updateBook={this.updateBookHandler}
+              id={bookObj._id}
+            />
             <DeleteButton
               deleteBook={this.deleteBookHandler}
               id={bookObj._id}
