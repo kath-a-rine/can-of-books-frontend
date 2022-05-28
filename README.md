@@ -20,26 +20,45 @@ This app will track what books have impacted the developers and user, and provid
 
 ## Estimates
 
-Name of feature: Lab 11 - 
+**Name of feature: Lab 11 - Building CRUD Apps with MongoDB**
 
-Estimate of time needed to complete: _____
+Estimate of time needed to complete: 3 hours
 
-Start time: _____
+Start time: 1:23pm
 
-Finish time: _____
+Finish time: 5:45pm
 
-Actual time needed to complete: _____
+Actual time needed to complete: 4hrs 20 mins
 
-Name of feature: Lab 12 - 
+**Name of feature: Lab 12 - CREATE and DELETE of CRUD**
 
-Estimate of time needed to complete: _____
+Estimate of time needed to complete: 5 hours
 
-Start time: _____
+Start time: 1:30pm
 
-Finish time: _____
+Finish time: 8:30pm
 
-Actual time needed to complete: _____
+Actual time needed to complete: 7
 
+**Name of feature: Lab 13 - Update a Resource**
+
+Estimate of time needed to complete: 4 hours
+
+Start time: 1:30pm
+
+Finish time:
+
+Actual time needed to complete:
+
+**Name of feature: Lab 15 - OAuth**
+
+Estimate of time needed to complete: 3 hours
+
+Start time: 1:30pm
+
+Finish time:
+
+Actual time needed to complete:
 
 ## Credit and Collaborations
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
