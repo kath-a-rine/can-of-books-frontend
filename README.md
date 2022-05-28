@@ -104,5 +104,5 @@ Communicate with each other about, and escalate if additional help is needed
 - What will your team do if one person is taking over the project and not letting the other member contribute?
 Have a conversation about it and resolve the issue
 
-- How will you approach each other and the challenge of building an application knowing that it is impossible for two people to be at the exact same place in understanding and skill level?
+- How will you approach each other and the challenge of building an application knowing that it is impossible for two people to be at the exact same place in understanding and skill level?c
 Be willing to explain or learn, and show patience of the other team member is not fully understanding.
