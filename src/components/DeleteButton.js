@@ -7,8 +7,8 @@ class DeleteButton extends React.Component {
       <>
         <Button
           type="button"
-          onClick={() => { this.props.deleteBookHandler(this.props.id) }}
-        ></Button>
+          onClick={() => { this.props.deleteBook(this.props.id) }}
+        >Delete Book</Button>
       </>
     )
   }
