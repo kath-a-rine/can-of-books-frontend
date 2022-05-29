@@ -8,8 +8,8 @@ import DeleteButton from './components/DeleteButton';
 // import UpdateBookButton from './components/UpdateBookButton';
 import UpdateBookModal from './components/UpdateBookModal';
 
-// let SERVER = process.env.REACT_APP_SERVER;
-let SERVER = `https://can-of-books-d85.herokuapp.com`;
+let SERVER = process.env.REACT_APP_SERVER;
+// let SERVER = `https://can-of-books-d85.herokuapp.com`;
 
 class BestBooks extends React.Component {
   constructor(props) {
